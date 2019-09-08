@@ -1,5 +1,7 @@
-from random import *
+# import random functions, gives a bunch of warnings, but should be fine
+from random import randint
 
+# function to generate prime list
 def make_prime_list():
     primelist_return = []                                     # make list to store primes
     num = 2                                            # start at 2 because everything below 2 aint no prime
@@ -20,88 +22,89 @@ def make_prime_list():
             num +=1         
 
     return(primelist_return)
-
+# function to find prime factors
 def prime_factors(input_value,primelist):
+    # init
     NOT_ONE = True
     n=2
-    prime_factor_list = []
+    prime_factor_list = []                                  # create list for prime factors
     while(NOT_ONE):
-        if (input_value%n == 0):
-            division_ans = input_value / n 
-            if (division_ans == 1):
-                NOT_ONE = False
-                prime_factor_list.append(input_value)
-            elif division_ans in primelist:
-                prime_factor_list.append(division_ans)
-                input_value = input_value / division_ans
-                n=1
-            
-                
-                    
-        n +=1
-    return (prime_factor_list)
-
+        if (input_value%n == 0):                            # check if division gives whole number
+            division_ans = input_value / n                  # run division
+            if (division_ans == 1):                         # if division_ans is 1, this means that it is only dividable by itself and therefore it a prime and the last factor
+                NOT_ONE = False                             # end while loop
+                prime_factor_list.append(input_value)       # add last prime factor to list
+            elif division_ans in primelist:                 # if factor is in prime list
+                prime_factor_list.append(division_ans)      # add factor to prime_factor_list
+                input_value = input_value / division_ans    # set input value to find next factor
+                n=1                                         # reset n to start searching for factors (n=1, because it will be set to 2 in next line)
+        n +=1                                               # n++
+    return (prime_factor_list)                              # return prime factor list
+# function to request user input "CURRENTLY NOT USED"
 def request_input():
     input_value = int(input(""))
+    # incorrect input value
     while (input_value <=1):
         print("invalid input, please try again")
         input_value = int(input("insert value\n"))
+    # input value is already prime
     while (input_value in primelist):
         print("number is already a prime, please try again")
         input_value = int(input("insert value\n"))
-    return input_value
-
+    return input_value                                          # return input value
+# function to find common dividers
 def dividers(list1,list2):
+    # init
     pos1 = 0
-    len1 = len(list1)
+    len1 = len(list1)               # find lenght of list
     while(pos1 < len1):
-        if (list1[pos1] in list2):
-            return True
+        if (list1[pos1] in list2):  # check if common divider is found
+            return True             # return true
         else:
-            pos1 += 1
-
-def riemann_zeta(n_checks):
+            pos1 += 1               # else check next pos
+# function to calculate riemann zeta
+def riemann_zeta(n):
+    # init
     riemann = 0
-    for x in range (2,n_checks):
-        riemann = riemann + (1/pow(x,2))
-    return riemann
+    checks = 1000000                        # ammount of checks, should be infinit, but thats impossible, so 1 million should be fine
+    # calculate riemann zeta function
+    for x in range (1,checks):              
+        riemann = riemann + (1/pow(x,n))
+    return (1/riemann)                      # return 1/(riemann zeta function)
 
-div = 0
-nodiv = 0
+# init
+div = 0                     # ammount of dividers found
+nodiv = 0                   # ammount of non dividers found
+random_checks = 10000       # this gives the amount of random checks, more checks is more accurate, but is more time consuming
 
 # Generate prime list
 print("generating prime list ...")
-primelist = make_prime_list()           # Get first 10000 primes
+primelist = make_prime_list()          
 print("list generated")
-random_checks = 100000
 
 for x in range (random_checks):
 
-    ### Request for input value ###
-    #print("insert first value:")
-    #first_value = request_input()
+    # generate random values between (10.000 and 100.000)
     first_value = randint(10000, 100000)
-    #print("insert second value:")
-    #second_value = request_input()
     second_value = randint(10000, 100000)
 
-
-    # Find prime factors
+    # Find prime factors of random values
     prime_factor_list_first = prime_factors(first_value, primelist)
-    #print(prime_factor_list_first)
     prime_factor_list_second = prime_factors(second_value, primelist)
-    #print(prime_factor_list_second)
 
-    if (dividers(prime_factor_list_first, prime_factor_list_second)):
-        #print("common dividers")
+    # check for common dividers
+    if (dividers(prime_factor_list_first, prime_factor_list_second)):   #check for dividers in dividers function
+        # common divider found
         div +=1
 
     else:
-        #print("no common dividers")
+        # no common divider
         nodiv += 1
+    # print progress
     print("progress: ",round(((x/random_checks)*100),1),"%")
 
+# print results
 print ("dividers: ",div)
 print ("no dividers: ", nodiv)
-print ("chance of no common dividers = ", (nodiv/x))
-print ("riemann: ", riemann_zeta(random_checks))
+print ("chance of no common dividers, Python's prediction:   ", round((nodiv/(random_checks-1)),3))     # Python's results
+print ("chance of no common dividers, Riemann's predicition: ", round(riemann_zeta(2),3))               # Riemann's results
