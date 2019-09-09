@@ -1,11 +1,12 @@
 # import random functions, gives a bunch of warnings, but should be fine
 from random import randint
+import os                           # import for clear screen command
 
 # function to generate prime list
 def make_prime_list():
     primelist_return = []                                     # make list to store primes
     num = 2                                            # start at 2 because everything below 2 aint no prime
-
+    dotcnt = 0
     for x in range (5000):                       # find all primes under 10000, loops 5000 times because we skip even numbers      
         Prime = True                                   # make sure prime is set to true else it wont detect primes
 
@@ -15,7 +16,19 @@ def make_prime_list():
                 Prime = False                          # set prime to false
         if Prime == True:                              # if prime wasn't set to false in the for loop, this means the number is a prime
             primelist_return.append(num)                      # add number to Primelist
-            #print(num)
+            dotcnt +=1
+            # update dots for progress feedback
+            if (dotcnt == 40):
+                os.system("cls")
+                print("generating prime list .", end= "")
+            if (dotcnt == 80):
+                os.system("cls")
+                print("generating prime list ..", end= "")
+            if (dotcnt == 160):
+                os.system("cls")
+                print("generating prime list ...", end= "") 
+                dotcnt = 0               
+            
         if num >=3:                                    # skip even numbers
             num +=2                             
         else:                                          # but dont skip 2
@@ -71,14 +84,28 @@ def riemann_zeta(n):
     for x in range (1,checks):              
         riemann = riemann + (1/pow(x,n))
     return (1/riemann)                      # return 1/(riemann zeta function)
+# progress function
+def progress_bar(percentage):
+    print("progress:")
+    print("[", end="")
+    for z in range (100):
+        if (percentage > 0):
+            print("|",end="")
+        if (percentage <= 0):
+            print(" ",end="")
+        percentage -= 1
+    print("]")
+
+
 
 # init
 div = 0                     # ammount of dividers found
 nodiv = 0                   # ammount of non dividers found
 random_checks = 10000       # this gives the amount of random checks, more checks is more accurate, but is more time consuming
+last_update = 0
 
 # Generate prime list
-print("generating prime list ...")
+print("generating prime list", end= "")
 primelist = make_prime_list()          
 print("list generated")
 
@@ -101,10 +128,16 @@ for x in range (random_checks):
         # no common divider
         nodiv += 1
     # print progress
-    print("progress: ",round(((x/random_checks)*100),1),"%")
+    
+    # update progress
+    if (last_update != round(((x/random_checks)*100))):
+        os.system("cls")
+        progress_bar(round(((x/random_checks)*100)))
+        #print("progress: ",round(((x/random_checks)*100)),"%")
+    last_update = round(((x/random_checks)*100))
 
 # print results
 print ("dividers: ",div)
 print ("no dividers: ", nodiv)
 print ("chance of no common dividers, Python's prediction:   ", round((nodiv/(random_checks-1)),3))     # Python's results
-print ("chance of no common dividers, Riemann's predicition: ", round(riemann_zeta(2),3))               # Riemann's results
+print ("chance of no common dividers, Riemann's predicition: s", round(riemann_zeta(2),3))               # Riemann's results
