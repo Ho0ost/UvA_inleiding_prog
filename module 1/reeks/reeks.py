@@ -1,4 +1,3 @@
-
 Longest_No_Prime_Series = 0                        # set longest 
 Primelist = []                                     # make list to store primes
 num = 2                                            # start at 2 because everything below 2 aint no prime

@@ -33,17 +33,17 @@ while (NOT_DONE):
     primesum = int(primelist[pos1]+primelist[pos2])                     # Make sum of two primes
     if (primesum == even_number):                                       # If goldbach was right, print the output
         print(even_number,"=",primelist[pos1],"+",primelist[pos2],)
-        even_number +=2                                                 # Goto the next even number
+        even_number += 2                                                # Goto the next even number
         pos1 = 0                                                        # Reset positions
         pos2 = 0
     else:                                                               # else go to the next position
         if pos1 < even_number:
-            pos1 +=1
+            pos1 += 1
             if pos1 > 167:
-                pos1=0
-                pos2 +=1
+                pos1 = 0
+                pos2 += 1
         elif pos1 >= even_number:
-            pos2 +=1
+            pos2 += 1
             pos1 = 0
             if (pos2 >= even_number):
                 print("BINGO")                                              # goldbach was wrong!!!
