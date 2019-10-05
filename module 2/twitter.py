@@ -37,7 +37,7 @@ def montecarlo(random_tries):
         cnt += 1    
         # generate random point
         random_x = random_num(-1,1)
-        random_y = random_num(-0.4,1.4)
+        random_y = random_num(-0.5,1)
         
         # if point is in the egg, add to hit list, else add to mis list
         if egg(random_x,random_y) <= 1:
@@ -52,16 +52,17 @@ def montecarlo(random_tries):
         # update estimated area after every 1000 checks
         if cnt >= 1000:
             guesses += 1000
-            opp = (hit/mis)
+            opp = (hit/(mis+hit)*3)
+            # clear terminal
             os.system("cls")
-            print("estimated area after",guesses,"random points:", round((opp),3))
+            print("estimated area after",guesses,"random points:", round((opp),2))
             cnt = 0
 
-    
     print("total hits:", hit)
     print("total misses:", mis)
 
     # create plot
+    plt.text(-0.25,0.25, "opp = %s"%round((opp),2), color = 'black', fontsize = 15) 
     plt.plot(random_hit_x_list, random_hit_y_list, "wo",markersize=1)
     plt.plot(random_mis_x_list, random_mis_y_list, "bo",markersize=1)
     plt.show()

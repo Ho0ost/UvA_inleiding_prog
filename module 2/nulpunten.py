@@ -47,16 +47,19 @@ for x in np.arange(-6, 6, 0.1):
 # only one zero point, plot only one point
 if len(x_zero_list) == 1:
     plt.plot(x_zero_list[0], 0, 'ro')
+    plt.text(x_zero_list[0],1.20, "x1 = %s"%(x_zero_list[0]), color = 'black', fontsize = 15) 
 # two zero points, plot two points
 elif len(x_zero_list) == 2:
     plt.plot(x_zero_list[0], 0, 'ro')
     plt.plot(x_zero_list[1], 0, 'ro')
+    plt.text(x_zero_list[0],1.20, "x1 = %s"%(x_zero_list[0]), color = 'black', fontsize = 15) 
+    plt.text(x_zero_list[1],1.20, "x2 = %s"%(x_zero_list[1]), color = 'black', fontsize = 15) 
 # no zero points, dont plot points
 elif len(x_zero_list) == 0:
     print("Deze functie heeft geen nulpunten")
 
 # plot function
-plt.hlines(0,-6,6,"r", "dotted")
+plt.hlines(0,-6,6,"r", "dashed")
 plt.plot(x_values, y_values, 'b-')
 plt.axis([-6, 6, -15, 20])
 plt.show()

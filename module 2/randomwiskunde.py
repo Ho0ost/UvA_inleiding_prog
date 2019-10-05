@@ -1,6 +1,6 @@
 # autor: Joost van Dijk
 # program: randomwiskunde
-# 
+# progam calculates the average amount of random throws to get to 1 (random throw is between 0 and 1)
 
 import random
 
